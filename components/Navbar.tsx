@@ -74,7 +74,7 @@ const Navbar = () => {
         )}
 
         {user ? (
-          <UserButton afterSignOutUrl="/sign-in" />
+          <UserButton afterSignOutUrl="/" />
         ) : (
           <Link href="/sign-in">
             <CircleUserRound />
