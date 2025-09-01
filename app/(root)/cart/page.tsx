@@ -9,8 +9,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const Cart = () => {
-  // const router = useRouter();
-  // const { user } = useUser();
+  const router = useRouter();
+  const { user } = useUser();
   const cart = useCart(); 
 
   const total = cart.cartItems.reduce(
@@ -19,29 +19,32 @@ const Cart = () => {
   );
   const totalRounded = parseFloat(total.toFixed(2));
 
-  // const customer = {
-  //   clerkId: user?.id,
-  //   email: user?.emailAddresses[0].emailAddress,
-  //   name: user?.fullName,
-  // };
-
-  // const handleCheckout = async () => {
-  //   try {
-  //     if (!user) {
-  //       router.push("sign-in");
-  //     } else {
-  //       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-  //         method: "POST",
-  //         body: JSON.stringify({ cartItems: cart.cartItems, customer }),
-  //       });
-  //       const data = await res.json();
-  //       window.location.href = data.url;
-  //       console.log(data);
-  //     }
-  //   } catch (err) {
-  //     console.log("[checkout_POST]", err);
-  //   }
-  // };
+  console.log("user_clerk: ",user);
+  
+  const customer = {
+    clerkId: user?.id,
+    email: user?.emailAddresses[0].emailAddress,
+    name: user?.fullName,
+  };
+  console.log("customer_post_/api/checkout: ",customer);
+  
+  const handleCheckout = async () => {
+    try {
+      if (!user) {
+        router.push("sign-in");
+      } else {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+          method: "POST",
+          body: JSON.stringify({ cartItems: cart.cartItems, customer }),
+        });
+        const data = await res.json();
+        window.location.href = data.url;
+        console.log("data_post_api_checkout: ",data);
+      }
+    } catch (err) {
+      console.log("[checkout_POST]", err);
+    }
+  };
 
   return (
     <div className="flex gap-20 py-16 px-10 max-lg:flex-col max-sm:px-3">
@@ -110,7 +113,7 @@ const Cart = () => {
         </div>
         <button
           className="border rounded-lg text-body-bold bg-white py-3 w-full hover:bg-black hover:text-white"
-          // onClick={handleCheckout}
+          onClick={handleCheckout}
         >
           Proceed to Checkout
         </button>

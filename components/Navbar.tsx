@@ -13,7 +13,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useUser();
-   const cart = useCart();
+  const cart = useCart();
 
   const [dropdownMenu, setDropdownMenu] = useState(false);
 
@@ -70,6 +70,12 @@ const Navbar = () => {
               className="hover:text-red-1"
             >
               Orders
+            </Link>
+            <Link
+              href={user ? "/cart" : "/sign-in"}
+              className="hover:text-red-1"
+            >
+              Cart
             </Link>
           </div>
         )}
